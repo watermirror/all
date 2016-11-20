@@ -8,9 +8,9 @@
 
 // #define OS_WIN
 #define OS_UNIX
- 
+
 #define MAX_STUDENTS 51
- 
+
 // Student data structure.
 typedef struct Student {
   char name[20];
@@ -21,10 +21,10 @@ typedef struct Student {
   int sum;
   int avg;
 } Student;
- 
+
 // Comparing function for Students.
 typedef bool (* LessFunction)(const Student*, const Student*);
- 
+
 void ClearScreen() {
 #if defined(OS_WIN)
   system("cls");
@@ -32,7 +32,7 @@ void ClearScreen() {
   system("clear");
 #endif
 }
- 
+
 void Pause() {
 #if defined(OS_WIN)
   fflush(stdin);
@@ -41,18 +41,18 @@ void Pause() {
 #endif
   getchar();
 }
- 
+
 // Print a split line.
 void PrintSplit() {
   printf("------------------------------------------------\n");
 }
- 
+
 // Reckon the sum score and the average score of one specific student.
 void ReckonScores(Student* student) {
   student->sum = student->math + student->chi + student->eng;
   student->avg = student->sum / 3;
 }
- 
+
 //
 // 5 functions below are for inputting.
 //
@@ -68,18 +68,18 @@ void InputAnyTypeField(const char* filter,
   }
   fflush(stdin);
 }
- 
+
 void InputStringField(const char* field_name, char* value) {
 #if defined(OS_UNIX)
   getchar();
 #endif
   InputAnyTypeField("%s", field_name, value);
 }
- 
+
 void InputIntegerField(const char* field_name, int* value) {
   InputAnyTypeField("%d", field_name, value);
 }
- 
+
 void InputSingleStudent(Student* student) {
   InputStringField("Name", student->name);
   InputIntegerField("ID", &student->id);
@@ -89,18 +89,18 @@ void InputSingleStudent(Student* student) {
   ReckonScores(student);
   PrintSplit();
 }
- 
+
 int InputAllStudent(Student* student, int max_allowed) {
   ClearScreen();
   int count = 0;
- 
+
   // Get the legal count.
   for (; printf("How many strudents you want to input? "),
          scanf("%d", &count),
          count > max_allowed || count < 0;
        printf("Cannot more than %d students or less than 0.\n", max_allowed));
   int count_down = count;
- 
+
   // Input all students' information.
   while (count_down--) {
     InputSingleStudent(student++);
@@ -109,7 +109,7 @@ int InputAllStudent(Student* student, int max_allowed) {
   Pause();
   return count;
 }
- 
+
 // Display all students' informations.
 void DisplayAllStudents(const Student* student, int count) {
   ClearScreen();
@@ -125,18 +125,18 @@ void DisplayAllStudents(const Student* student, int count) {
   Pause();
   return;
 }
- 
+
 //
 // 2 functions below are the comparing functions for sorting.
 //
 bool LessBySum(const Student* a, const Student* b) {
   return a->sum < b->sum;
 }
- 
+
 bool LessByAvg(const Student* a, const Student* b) {
   return a->avg < b->avg;
 }
- 
+
 int ShowSortingMenu() {
   ClearScreen();
   int selection = 0;
@@ -146,7 +146,7 @@ int ShowSortingMenu() {
        printf("Ilegal input!\n"));
   return selection;
 }
- 
+
 void SortAndDisplayAllStudents(LessFunction less_function,
                                Student* student,
                                int count) {
@@ -161,7 +161,7 @@ void SortAndDisplayAllStudents(LessFunction less_function,
   }
   DisplayAllStudents(student, count);
 }
- 
+
 void SortStudents(Student* student, int count) {
   int selection = ShowSortingMenu();
   if (!selection)
@@ -169,7 +169,7 @@ void SortStudents(Student* student, int count) {
   LessFunction less_functions[] = {NULL, &LessBySum, &LessByAvg};
   SortAndDisplayAllStudents(less_functions[selection], student, count);
 }
- 
+
 int ShowMainMenu() {
   int selection = 0;
   do {
@@ -188,11 +188,11 @@ int ShowMainMenu() {
   } while (selection < 0 || selection > 3);
   return selection;
 }
- 
+
 int main() {
   Student students[MAX_STUDENTS];
   int count = 0;
- 
+
   int selection = 0;
   while ((selection = ShowMainMenu())) {
     switch (selection) {
@@ -209,7 +209,7 @@ int main() {
         break;
     };
   }
- 
+
   printf("Thank you, bye!\n");
   return 0;
 }
