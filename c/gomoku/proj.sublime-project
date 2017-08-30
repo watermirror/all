@@ -1,0 +1,19 @@
+{
+  "folders":
+  [
+    {
+      "path": "./",
+      "name": "root",
+      "file_exclude_patterns":
+      [
+        "*.gitignore",
+        "*.gitmodules"
+      ],
+      "folder_exclude_patterns":
+      [
+        "out",
+        ".git"
+      ]
+    }
+  ]
+}
