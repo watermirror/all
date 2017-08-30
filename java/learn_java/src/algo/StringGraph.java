@@ -4,29 +4,29 @@ public class StringGraph {
     private static char backChar = ' ';
     private static char foreChar = '*';
 
-    public static void SetBackground(char backChar) {
+    public static void setBackground(char backChar) {
         StringGraph.backChar = backChar;
     }
 
-    public static void SetForeground(char foreChar) {
+    public static void setForeground(char foreChar) {
         StringGraph.foreChar = foreChar;
     }
 
-    public static boolean DrawDiamond(int size) {
+    public static boolean drawDiamond(int size) {
         if (size <= 0) {
             return false;
         }
         boolean oddness = (size % 2 != 0);
         int half_size = size / 2;
-        DrawTriangle(half_size, oddness ? 1 : 0, true);
+        drawTriangle(half_size, oddness ? 1 : 0, true);
         if (oddness) {
-            DrawHorizontalLine(0, size);
+            drawHorizontalLine(0, size);
         }
-        DrawTriangle(half_size, oddness ? 1 : 0, false);
+        drawTriangle(half_size, oddness ? 1 : 0, false);
         return true;
     }
 
-    private static boolean DrawTriangle(int height, int leftMargin, boolean upIsUp) {
+    private static boolean drawTriangle(int height, int leftMargin, boolean upIsUp) {
         // Check legality of parameters.
         if (height < 1 || leftMargin < 0) {
             return false;
@@ -68,7 +68,7 @@ public class StringGraph {
         return true;
     }
 
-    private static boolean DrawHorizontalLine(int startFrom, int length) {
+    private static boolean drawHorizontalLine(int startFrom, int length) {
         if (startFrom < 0 || length < 0) {
             return false;
         }

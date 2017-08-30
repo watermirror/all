@@ -2,20 +2,20 @@ import algo.StringGraph;
 
 public class LearnApp {
     public static void main(String[] args) {
-        TestDiamond();
-        TestArray();
+        testDiamond();
+        testArray();
     }
 
-    private static void TestDiamond() {
-        StringGraph.DrawDiamond(7);
-        StringGraph.SetForeground('+');
-        StringGraph.DrawDiamond(17);
-        StringGraph.SetForeground('$');
-        StringGraph.DrawDiamond(6);
-        StringGraph.DrawDiamond(1);
+    private static void testDiamond() {
+        StringGraph.drawDiamond(7);
+        StringGraph.setForeground('+');
+        StringGraph.drawDiamond(17);
+        StringGraph.setForeground('$');
+        StringGraph.drawDiamond(6);
+        StringGraph.drawDiamond(1);
     }
 
-    private static void TestArray() {
+    private static void testArray() {
         // Initialize a integer array.
         final int ARRAY_SIZE = 10;
         int[] integerArray = new int[ARRAY_SIZE];
@@ -41,5 +41,12 @@ public class LearnApp {
             System.out.print(stringBuilder);
         }
         System.out.println();
+
+        // Find the max number.
+        int max = Integer.MIN_VALUE;
+        for (int item : integerArray) {
+            max = Math.max(max, item);
+        }
+        System.out.printf("The maximum is %d.\n", max);
     }
 }
