@@ -1,9 +1,12 @@
 import algo.StringGraph;
 
+import java.util.*;
+
 public class LearnApp {
     public static void main(String[] args) {
         testDiamond();
         testArray();
+        testMap();
     }
 
     private static void testDiamond() {
@@ -48,5 +51,16 @@ public class LearnApp {
             max = Math.max(max, item);
         }
         System.out.printf("The maximum is %d.\n", max);
+    }
+
+    private static void testMap() {
+        Map names = new HashMap<Integer, String>();
+        names.put(1, "Michael che");
+        names.put(1, "Michael Che");
+        names.put(2, "Angy Yang");
+        names.put(3, "Hello Kitty");
+        for (int i = 1; i <= 3; ++i) {
+            System.out.printf("No.%d is %s.\n", i, names.get(i));
+        }
     }
 }
