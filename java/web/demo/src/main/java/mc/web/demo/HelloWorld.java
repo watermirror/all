@@ -1,6 +1,7 @@
 package mc.web.demo;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,6 +14,15 @@ public class HelloWorld {
     public String show() {
         ++accessCount;
         return "Hello Spring Boot, hello world.";
+    }
+
+    @RequestMapping("/welcome")
+    public String showWelcome(@RequestParam(name = "usr", required = false) String userName) {
+        ++accessCount;
+        if (userName == null) {
+            return "Welcome! Dear customer.";
+        }
+        return String.format("Welcome! Dear %s.", userName);
     }
 
     @RequestMapping("/access-count")
