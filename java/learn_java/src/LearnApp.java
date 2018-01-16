@@ -54,7 +54,7 @@ public class LearnApp {
     }
 
     private static void testMap() {
-        Map names = new HashMap<Integer, String>();
+        Map<Integer, String> names = new HashMap<Integer, String>();
         names.put(1, "Michael che");
         names.put(1, "Michael Che");
         names.put(2, "Angy Yang");
