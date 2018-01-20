@@ -1,5 +1,8 @@
 package mc.web.demo;
 
+import mc.web.demo.aop.AccessCounter;
+import mc.web.demo.service.WorkService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,25 +11,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hello-world")
 public class HelloWorld {
 
-    private int accessCount = 0;
+    @Autowired
+    private WorkService service = null;
+
+    @Autowired
+    private AccessCounter counter = null;
 
     @RequestMapping("/show")
     public String show() {
-        ++accessCount;
-        return "Hello Spring Boot, hello world.";
+        return service.showCurrentTime();
     }
 
     @RequestMapping("/welcome")
     public String showWelcome(@RequestParam(name = "usr", required = false) String userName) {
-        ++accessCount;
-        if (userName == null) {
-            return "Welcome! Dear customer.";
-        }
-        return String.format("Welcome! Dear %s.", userName);
+        return service.showWelcome(userName);
     }
 
-    @RequestMapping("/access-count")
+    @RequestMapping("/count")
     public String accessCount() {
-        return String.format("Path \"/hello-world/show\" has been accessed %d times.", accessCount);
+        return String.format("Service has been accessed %d times.", counter.getCount());
     }
 }
