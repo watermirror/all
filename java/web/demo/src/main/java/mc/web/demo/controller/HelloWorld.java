@@ -1,4 +1,4 @@
-package mc.web.demo;
+package mc.web.demo.controller;
 
 import mc.web.demo.aop.AccessCounter;
 import mc.web.demo.service.WorkService;
@@ -19,7 +19,7 @@ public class HelloWorld {
 
     @RequestMapping("/show")
     public String show() {
-        return service.showCurrentTime();
+        return service.showCurrentTime().toString();
     }
 
     @RequestMapping("/welcome")

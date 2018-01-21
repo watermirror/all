@@ -8,16 +8,27 @@ import java.util.Date;
 @Component
 public class WorkService {
 
-    @Countable
-    public String showWelcome(String userName) {
-        if (userName == null || userName.isEmpty()) {
-            userName = "customer";
-        }
-        return String.format("Welcome! Dear %s.", userName);
+    private static final String DEFAULT_USER_NAME = "customer";
+    private static final String WELCOME_TEMPLATE = "Welcome! Dear %s.";
+
+    public static String getDefaultUserNameForTest() {
+        return DEFAULT_USER_NAME;
+    }
+
+    public static String getWelcomeTemplateForTest() {
+        return WELCOME_TEMPLATE;
     }
 
     @Countable
-    public String showCurrentTime() {
-        return new Date().toString();
+    public String showWelcome(String userName) {
+        if (userName == null || userName.isEmpty()) {
+            userName = DEFAULT_USER_NAME;
+        }
+        return String.format(WELCOME_TEMPLATE, userName);
+    }
+
+    @Countable
+    public Date showCurrentTime() {
+        return new Date();
     }
 }
