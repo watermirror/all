@@ -1,5 +1,7 @@
 import algo.StringGraph;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 
 public class LearnApp {
@@ -7,6 +9,8 @@ public class LearnApp {
         testDiamond();
         testArray();
         testMap();
+        // testSwing();
+        testTread();
     }
 
     private static void testDiamond() {
@@ -63,4 +67,47 @@ public class LearnApp {
             System.out.printf("No.%d is %s.\n", i, names.get(i));
         }
     }
+
+    private static void testSwing() {
+        EventQueue.invokeLater(LearnApp::showSwingTestView);
+    }
+
+    private static void showSwingTestView() {
+        SimpleViewFrame frame = new SimpleViewFrame();
+        frame.setVisible(true);
+    }
+
+    private static void testTread() {
+        DataStore store = new DataStore();
+        Runnable r = () -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                System.out.println("Current value : " + store.getData());
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        };
+        Thread t = new Thread(r);
+        t.setDaemon(true);
+        t.start();
+
+        for (int i = 0; i < 10; ++i) {
+            store.setData(store.getData() + 1);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}
+
+class DataStore {
+    private int data;
+
+    int getData() { return data; }
+
+    void setData(int newData) { data = newData; }
 }
