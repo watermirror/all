@@ -27,7 +27,7 @@ public class LearnApp {
         }
 
         // Sort array.
-        java.util.Arrays.sort(integerArray);
+        Arrays.sort(integerArray);
 
         // Reverse array.
         for (int i = 0; i < integerArray.length / 2; ++i) {
@@ -54,7 +54,7 @@ public class LearnApp {
     }
 
     private static void testMap() {
-        Map<Integer, String> names = new HashMap<Integer, String>();
+        Map<Integer, String> names = new HashMap<>();
         names.put(1, "Michael che");
         names.put(1, "Michael Che");
         names.put(2, "Angy Yang");
