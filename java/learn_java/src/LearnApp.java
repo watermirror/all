@@ -12,8 +12,9 @@ public class LearnApp {
         // testMap();
         // testSwing();
         // testTread();
-        testTime();
+        // testTime();
         //testLambda();
+        testEqual();
     }
 
     private static void testDiamond() {
@@ -181,14 +182,36 @@ public class LearnApp {
     private static void postTask(Runnable task) {
         task.run();
     }
+
+    private static void testEqual() {
+        // String a = new String("Hello");
+        // String b = new String("Hello");
+        DataStore a = new DataStore(25);
+        DataStore b = new DataStore(25);
+        System.out.println("a == b : " + (a == b));
+        System.out.println("a.equals(b) : " + a.equals(b));
+    }
 }
 
 class DataStore {
     private int data;
 
+    DataStore() {}
+
+    DataStore(int init) { data = init; }
+
     int getData() { return data; }
 
     void setData(int newData) { data = newData; }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || other.getClass() != getClass()) {
+            return false;
+        }
+        DataStore otherObj = (DataStore) other;
+        return data == otherObj.data;
+    }
 }
 
 interface SomeCallback {
