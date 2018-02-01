@@ -2,15 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class SimpleViewFrame extends JFrame {
-    private SolarView solarView;
-
-    public SimpleViewFrame() {
+class SimpleViewFrame extends JFrame {
+    SimpleViewFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setTitle("Swing Test Window");
 
-        solarView = new SolarView();
+        SolarView solarView = new SolarView();
         getContentPane().add(solarView);
         pack();
     }

@@ -1,16 +1,19 @@
 import algo.StringGraph;
 
-import javax.swing.*;
 import java.awt.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class LearnApp {
     public static void main(String[] args) {
-        testDiamond();
-        testArray();
-        testMap();
+        // testDiamond();
+        // testArray();
+        // testMap();
         // testSwing();
-        testTread();
+        // testTread();
+        testTime();
+        //testLambda();
     }
 
     private static void testDiamond() {
@@ -102,6 +105,82 @@ public class LearnApp {
             }
         }
     }
+
+    private static void testTime() {
+        System.out.println("*************************\n" +
+                           "  Test Time\n" +
+                           "*************************");
+
+        Instant now = Instant.now();
+        System.out.println("Now : " + now);
+
+        Instant lastInstant = Instant.MAX;
+        System.out.println("The last instant of world : " + lastInstant);
+
+        System.out.println("Local date of now : " + LocalDate.now());
+
+        System.out.println("Local time of now : " + LocalTime.now());
+
+        System.out.println("Local date-time of now : " + LocalDateTime.now());
+
+        LocalDate[] birthDays = {
+                LocalDate.of(1954, 9, 13),
+                LocalDate.of(1960, 9, 6),
+                LocalDate.of(1985, 7, 31),
+                LocalDate.of(1989, 11, 28) };
+
+        for (LocalDate birthDay : birthDays) {
+            Period age = birthDay.until(LocalDate.now());
+            System.out.printf("Age is %d years %d months and %d days.\n",
+                    age.getYears(),
+                    age.getMonths(),
+                    age.getDays());
+        }
+
+        Set<String> zones = ZoneId.getAvailableZoneIds();
+        System.out.println("Count of time zones : " + zones.size());
+        System.out.println(LocalDateTime.now().atZone(ZoneId.of("PRC")));
+
+        String[] zoneNames = {"PRC", "Etc/GMT+8", "GMT"};
+        ArrayList<ZoneId> zoneIds = new ArrayList<>();
+
+        for (String zoneName : zoneNames) {
+            zoneIds.add(ZoneId.of(zoneName));
+        }
+        zoneIds.add(ZoneId.ofOffset("GMT", ZoneOffset.ofHours(8)));
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss O");
+        for (ZoneId zoneId : zoneIds) {
+            ZonedDateTime zonedNow = now.atZone(zoneId);
+            System.out.println(zonedNow.format(fmt));
+        }
+    }
+
+    private static void testLambda() {
+        // Prepare callback.
+        SomeCallback callback = (result) -> onTaskDone(2, result);
+
+        // Post a task.
+        postTask(() -> doTask(30, callback));
+        postTask(() -> doTask(40, LearnApp::onTaskDone));
+    }
+
+    private static void doTask(int p, SomeCallback callback) {
+        System.out.println("Do task with " + p + ".");
+        callback.call(p * 2);
+    }
+
+    private static void onTaskDone(int id, int twice) {
+        System.out.println("Callback with Id=" + id + ", twice=" + twice + ".");
+    }
+
+    private static void onTaskDone(int twice) {
+        System.out.println("Callback with twice=" + twice + ".");
+    }
+
+    private static void postTask(Runnable task) {
+        task.run();
+    }
 }
 
 class DataStore {
@@ -110,4 +189,8 @@ class DataStore {
     int getData() { return data; }
 
     void setData(int newData) { data = newData; }
+}
+
+interface SomeCallback {
+    void call(int twice);
 }
