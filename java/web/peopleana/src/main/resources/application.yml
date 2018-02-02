@@ -1,0 +1,11 @@
+# Basic settings.
+server.port: 8080
+spring.mvc.favicon.enabled: false
+
+# DB settings.
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test_repo?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root1234
