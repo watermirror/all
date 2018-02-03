@@ -2,8 +2,11 @@ package pers.mc.peopleana.dao.db;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import pers.mc.peopleana.domain.po.Person;
+
+import java.util.List;
 
 /**
  * Maps methods to SQL statements with table "people" in DB.
@@ -38,4 +41,15 @@ public interface PeopleTable {
             "tel_no AS telNo, email, mail_addr AS mailAddr FROM people " +
             "WHERE id = #{id} LIMIT 1")
     Person getOneById(long id);
+
+    /**
+     * Get list in an indicated range.
+     * @param begin the begin index of range.
+     * @param count the size of range.
+     * @return the result list.
+     */
+    @Select("SELECT id, first_name AS firstName, last_name AS lastName, is_male AS isMale, birthday, " +
+            "tel_no AS telNo, email, mail_addr AS mailAddr FROM people " +
+            "LIMIT #{begin}, #{count}")
+    List<Person> getByRange(@Param("begin") long begin, @Param("count") long count);
 }

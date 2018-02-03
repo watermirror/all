@@ -1,7 +1,9 @@
 # Basic settings.
 server.port: 8080
 spring.mvc.favicon.enabled: false
-spring.profiles.active: h2
+
+# Profiles settings.
+spring.profiles.active: h2, logging
 
 ---
 
@@ -26,3 +28,12 @@ spring:
     driverClassName: org.h2.Driver
     url: jdbc:h2:mem:test_repo
     schema: classpath:schema.sql
+
+---
+
+spring.profiles: logging
+
+# Logging settings.
+logging:
+  level.root: INFO
+  file: amazing_log.log
