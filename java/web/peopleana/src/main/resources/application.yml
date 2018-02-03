@@ -27,7 +27,7 @@ spring:
   datasource:
     driverClassName: org.h2.Driver
     url: jdbc:h2:mem:test_repo
-    schema: classpath:schema.sql
+    schema: classpath:db/schema.sql
 
 ---
 
@@ -36,4 +36,4 @@ spring.profiles: logging
 # Logging settings.
 logging:
   level.root: INFO
-  file: amazing_log.log
+  file: logs/amazing_log.log

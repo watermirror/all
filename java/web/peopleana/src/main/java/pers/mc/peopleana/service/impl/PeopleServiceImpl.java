@@ -99,6 +99,7 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
+    @Synchroneity
     public List<Person> getPeopleByPage(long page, long pageSize) {
         return getPeopleByRange(page * pageSize, pageSize);
     }
