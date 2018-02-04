@@ -19,34 +19,41 @@ public class DateTimeServiceImpl implements DateTimeService, DateTimeServiceUpda
     /**
      * The date for synchroneity.
      */
-    private LocalDate currentDate;
+    private ThreadLocal<LocalDate> currentDate = new ThreadLocal<>();
 
     /**
      * The delta invocation count of setEnabled(true) and setEnabled(false).
      * When it is a positive number, the service is enabled. Otherwise, the service is disabled.
      */
-    private int enableCount;
+    private ThreadLocal<Integer> enableCount = new ThreadLocal<>();
 
     @Override
-    public synchronized LocalDate getCurrentDate() throws DateTimeServiceDisabledException {
+    public LocalDate getCurrentDate() throws DateTimeServiceDisabledException {
         if (!isEnabled()) {
             throw new DateTimeServiceDisabledException();
         }
-        return currentDate;
+        return currentDate.get();
     }
 
     @Override
-    public synchronized boolean isEnabled() {
-        return currentDate != null && enableCount > 0;
+    public boolean isEnabled() {
+        return (currentDate.get() != null &&
+                enableCount.get() != null &&
+                enableCount.get() > 0);
     }
 
     @Override
-    public synchronized void setCurrentDate(LocalDate currentDate) {
-        this.currentDate = currentDate;
+    public void setCurrentDate(LocalDate currentDate) {
+        this.currentDate.set(currentDate);
     }
 
     @Override
-    public synchronized void setEnabled(boolean enabled) {
-        enableCount += enabled ? 1 : -1;
+    public void setEnabled(boolean enabled) {
+        Integer val = enableCount.get();
+        if (val == null) {
+            val = 0;
+        }
+        val += enabled ? 1 : -1;
+        enableCount.set(val);
     }
 }
