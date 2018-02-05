@@ -161,6 +161,10 @@ public class Person {
         this.mailAddr = mailAddr;
     }
 
+    /**
+     * Override {@code toString()} for adapting {@code Person} to some cache system just like Redis, Tair and etc.
+     * @return a formatted string in JSON.
+     */
     @Override
     public String toString() {
         ObjectMapper mapper = new ObjectMapper();
