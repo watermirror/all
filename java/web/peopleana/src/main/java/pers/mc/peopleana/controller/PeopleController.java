@@ -32,7 +32,7 @@ public class PeopleController {
      * Query the count of all people.
      * @return the count of people.
      */
-    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @RequestMapping(path = "/count", method = RequestMethod.GET)
     @ResponseStatus(code = HttpStatus.OK)
     public OutgoingMessage getPeopleCount() {
         return new CommonMessage(peopleService.getPeopleCount());
@@ -43,7 +43,7 @@ public class PeopleController {
      * @param id the id of a particular person.
      * @return information of a person.
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(code = HttpStatus.OK)
     public OutgoingMessage getPersonById(@PathVariable(value = "id") long id) {
         Person person = peopleService.getPersonById(id);
@@ -55,7 +55,7 @@ public class PeopleController {
      * @param pageSize the people count per page.
      * @return the count of pages.
      */
-    @RequestMapping(value = "/pages/count", method = RequestMethod.GET)
+    @RequestMapping(path = "/pages/count", method = RequestMethod.GET)
     @ResponseStatus(code = HttpStatus.OK)
     public OutgoingMessage getPagesCount(
             @RequestParam(name = "pageSize", defaultValue = DEFAULT_PAGE_SIZE) long pageSize) {
@@ -84,11 +84,16 @@ public class PeopleController {
      * @param pageSize optional page size.
      * @return result list of people.
      */
-    @RequestMapping(value = "/pages/{page}", method = RequestMethod.GET)
+    @RequestMapping(path = "/pages/{page}", method = RequestMethod.GET)
     @ResponseStatus(code = HttpStatus.OK)
     public OutgoingMessage getPagedPeople(
             @PathVariable("page") long page,
             @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE) long pageSize) {
         return getPeople(page * pageSize, pageSize);
+    }
+
+    @RequestMapping(path = "/make-exception")
+    public void intentionallyMakeException() {
+        int a = 100 / 0;
     }
 }

@@ -2,8 +2,6 @@ package pers.mc.peopleana.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,6 +40,7 @@ public class GlobalExceptionHandler {
      * Handle the {@link MethodArgumentTypeMismatchException} exception.
      * It means the parameter list to call this API is in bad format, when this exception occurred.
      * Thus, we response user with a "Bad Request" error.
+     * @param e the particular exception object.
      * @return the object to response.
      */
     @ExceptionHandler({
@@ -50,7 +49,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public OutgoingMessage handleBadRequest(Exception e) {
         logger.info(e.getMessage());
-        return new ErrorMessage("Bad Request");
+        return new ErrorMessage(HttpStatus.BAD_REQUEST.value());
     }
 
     /**
@@ -60,9 +59,9 @@ public class GlobalExceptionHandler {
      * @return the object to response.
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<OutgoingMessage> handleDefaultException(Exception e) {
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public OutgoingMessage handleDefaultException(Exception e) {
         logger.error(e.getMessage());
-        return new ResponseEntity<OutgoingMessage>(new ErrorMessage(500),
-                                                   HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 }

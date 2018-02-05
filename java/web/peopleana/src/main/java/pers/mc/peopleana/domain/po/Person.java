@@ -171,7 +171,9 @@ public class Person {
         String jsonString = null;
         try {
             jsonString = mapper.writeValueAsString(this);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            jsonString = "";
+        }
         return jsonString;
     }
 }
