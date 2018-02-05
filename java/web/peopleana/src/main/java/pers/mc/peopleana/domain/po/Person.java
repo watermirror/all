@@ -126,7 +126,7 @@ public class Person {
      */
     @JsonProperty("birthday")
     public String getFormattedBirthday() {
-        return birthday.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        return birthday.format(DateTimeFormatter.ofPattern("d LLL yyyy"));
     }
 
     /**
