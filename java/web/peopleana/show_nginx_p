@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+ps -ef | grep -v grep | grep -v show_nginx_p | grep nginx
+
