@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+error_fmt="Should use like: $0 true|false"
+if [ -z $1 ]
+then
+  echo $error_fmt
+elif [ $1 != "true" ] && [ $1 != "false" ]
+then
+  echo $error_fmt
+else
+  defaults write com.apple.finder AppleShowAllFiles -boolean $1 ; killall Finder
+fi
+
