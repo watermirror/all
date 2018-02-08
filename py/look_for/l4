@@ -7,6 +7,8 @@
 import sys
 from pyquery import PyQuery
 from urllib import quote
+from urllib import unquote
+from urllib import unquote_plus
 
 # The source URL for looking up.
 SOURCE_URL = 'http://www.youdao.com/w/eng/%s'
@@ -35,7 +37,10 @@ def throwError(error) :
 def getQueryWord() :
     if len(sys.argv) < 2 :
         throwError(ERROR_NO_QUERY_WORD)
-    return quote(sys.argv[1].encode('utf8'))
+    param = ''
+    for word in sys.argv[1:] :
+        param += word + ' '
+    return quote(param.encode('utf8'))
 
 def handleSourceError(document) :
     errorTypo = document('.error-wrapper').eq(0)('.error-typo')
@@ -44,7 +49,7 @@ def handleSourceError(document) :
 
     print errorTypo('h4').eq(0).text()
     for suggestion in errorTypo('.typo-rel').items() :
-        print suggestion.text()
+        print unquote_plus(unquote(suggestion.text()))
     return False
 
 def doMain() :
@@ -80,7 +85,9 @@ def doMain() :
 
     print '**%s**' % g_queryWord
     print g_soundMark
+    print ''
     print g_translations
+    print ''
 
 if __name__ == '__main__' :
     try :
