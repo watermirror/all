@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-ps -ef | grep peopleana | grep -v grep | cut -c 10-15 | xargs kill -s SIGKILL
+ps -ef | grep peopleana | grep -v grep | sed -r 's/ +/ /g' | cut -d ' ' -f 3 | xargs kill -s SIGKILL
 
