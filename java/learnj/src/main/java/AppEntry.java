@@ -30,5 +30,12 @@ public class AppEntry {
         System.out.println(CONSTANT_1);
         // Cannot change CONSTANT_1 like below.
         // CONSTANT_1 = 2;
+
+        Object testObj = "Hello";
+        Object nullObj = null;
+        String stringObj = (String)nullObj;
+        System.out.println(stringObj);
+        stringObj = (String)testObj;
+        System.out.println(stringObj);
     }
 }

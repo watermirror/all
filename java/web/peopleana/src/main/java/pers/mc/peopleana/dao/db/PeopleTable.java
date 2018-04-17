@@ -1,9 +1,6 @@
 package pers.mc.peopleana.dao.db;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import pers.mc.peopleana.domain.po.Person;
 
 import java.util.List;
@@ -30,6 +27,7 @@ public interface PeopleTable {
      */
     @Insert("INSERT INTO people (first_name, last_name, is_male, birthday, tel_no, email, mail_addr) VALUES " +
             "(#{firstName}, #{lastName}, #{isMale}, #{birthday}, #{telNo}, #{email}, #{mailAddr});")
+    @Options(useGeneratedKeys = true)
     int addOne(Person person);
 
     /**

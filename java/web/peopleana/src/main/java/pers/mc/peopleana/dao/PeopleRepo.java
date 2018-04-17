@@ -1,7 +1,10 @@
 package pers.mc.peopleana.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Repository;
 import pers.mc.peopleana.dao.db.PeopleTable;
 import pers.mc.peopleana.domain.po.Person;
 
@@ -12,8 +15,13 @@ import java.util.List;
  * @version 18.2.1.0
  * @author Michael Che
  */
-@Component
+@Repository
+@Slf4j
 public class PeopleRepo {
+
+    private static final String CACHE_NAME = "PERSON_BY_ID";
+    private static final String CACHE_PREFIX = "person_by_id_";
+    private static final String QUOTED_CACHE_PREFIX_TAILED_PLUS = "'" + CACHE_PREFIX + "' + ";
 
     private PeopleTable peopleTable;
 
@@ -33,10 +41,12 @@ public class PeopleRepo {
     /**
      * Add a person information into repository.
      * @param person the person who will be added.
-     * @return return whether the action is succeeded.
+     * @return Returns the new person if successful, or null if failed.
      */
-    public void addPerson(Person person) {
+    public Person addPerson(Person person) {
         int changedRowCount = peopleTable.addOne(person);
+        log.info("Add 1 person into DB " + (changedRowCount > 0 ? "successfully." : "unsuccessfully."));
+        return changedRowCount > 0 ? person : null;
     }
 
     /**
@@ -44,7 +54,8 @@ public class PeopleRepo {
      * @param id id of person.
      * @return a particular person.
      */
-    public Person getPersonById(long id) {
+    public Person getPersonById(Long id) {
+        log.info("Get person from repository with person ID {}.", id);
         return peopleTable.getOneById(id);
     }
 

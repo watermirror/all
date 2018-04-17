@@ -45,7 +45,7 @@ public class PeopleController {
      */
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(code = HttpStatus.OK)
-    public OutgoingMessage getPersonById(@PathVariable(value = "id") long id) {
+    public OutgoingMessage getPersonById(@PathVariable(name = "id") long id) {
         Person person = peopleService.getPersonById(id);
         return new CommonMessage(person);
     }
@@ -88,8 +88,18 @@ public class PeopleController {
     @ResponseStatus(code = HttpStatus.OK)
     public OutgoingMessage getPagedPeople(
             @PathVariable("page") long page,
-            @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE) long pageSize) {
+            @RequestParam(name = "pageSize", defaultValue = DEFAULT_PAGE_SIZE) long pageSize) {
         return getPeople(page * pageSize, pageSize);
+    }
+
+    @RequestMapping(path = "/", method = RequestMethod.POST)
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public OutgoingMessage addPerson(@RequestParam(name = "random", required = false) Boolean random) {
+        if (random == null || !random) {
+            throw new IllegalArgumentException("Parameter |random| must be set to true.");
+        }
+        Person person = peopleService.addRandomPerson();
+        return new CommonMessage(person);
     }
 
     @RequestMapping(path = "/make-exception")

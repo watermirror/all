@@ -53,4 +53,10 @@ public interface PeopleService {
      * @return the people in the indicated page, returns null if the page doesn't exist.
      */
     List<Person> getPeopleByPage(long page, long pageSize);
+
+    /**
+     * Create and add a random person.
+     * @return Returns the new random person.
+     */
+    Person addRandomPerson();
 }

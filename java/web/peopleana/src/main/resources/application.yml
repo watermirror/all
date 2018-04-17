@@ -3,7 +3,7 @@ server.port: 8080
 spring.mvc.favicon.enabled: false
 
 # Profiles settings.
-spring.profiles.active: h2, logging
+spring.profiles.active: mysql, logging
 
 ---
 
@@ -37,3 +37,10 @@ spring.profiles: logging
 logging:
   level.root: INFO
   file: logs/amazing_log.log
+
+---
+
+spring.profiles: mybatis
+
+# Automatic conversion camel style field name to underscore style.
+mybatis.configuration.mapUnderscoreToCamelCase: true

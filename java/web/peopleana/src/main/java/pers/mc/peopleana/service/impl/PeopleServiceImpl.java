@@ -1,17 +1,18 @@
 package pers.mc.peopleana.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pers.mc.peopleana.dao.PeopleRepo;
 import pers.mc.peopleana.domain.po.Person;
 import pers.mc.peopleana.service.DateTimeService;
 import pers.mc.peopleana.service.PeopleService;
 import pers.mc.peopleana.service.aop.Synchroneity;
+import pers.mc.peopleana.service.exception.AddPersonException;
 import pers.mc.peopleana.service.exception.CannotFindPersonException;
 import pers.mc.peopleana.service.exception.PagingPeopleException;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -19,7 +20,8 @@ import java.util.List;
  * @version 18.2.1.0
  * @author Michael Che
  */
-@Component
+@Service
+@Slf4j
 public class PeopleServiceImpl implements PeopleService {
 
     private static final int MAX_PAGE_SIZE = 500;
@@ -34,7 +36,7 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void initializePeopleRandomlyIfNecessary(long peopleCount) {
         long totalCount = peopleRepo.getPeopleCount();
         if (totalCount >= peopleCount) {
@@ -46,6 +48,7 @@ public class PeopleServiceImpl implements PeopleService {
             Person person = RandomPeopleGenerator.generateRandomPerson();
             peopleRepo.addPerson(person);
         }
+        log.info("DB initialization accomplished.");
     }
 
     @Override
@@ -104,13 +107,16 @@ public class PeopleServiceImpl implements PeopleService {
         return getPeopleByRange(page * pageSize, pageSize);
     }
 
-    @PostConstruct
-    private void initializePeopleIfNecessary() {
-        final long INIT_COUNT = 10000;
-        try {
-            initializePeopleRandomlyIfNecessary(INIT_COUNT);
-        } catch (Exception e) {
+    @Override
+    @Synchroneity
+    public Person addRandomPerson() {
+        Person person = RandomPeopleGenerator.generateRandomPerson();
+        person = peopleRepo.addPerson(person);
+        if (person == null) {
+            throw new AddPersonException();
         }
+        person.updateAge(dateTimeService);
+        return person;
     }
 
     /**

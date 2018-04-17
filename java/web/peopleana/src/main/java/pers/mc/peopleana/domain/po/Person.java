@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pers.mc.peopleana.service.DateTimeService;
 import pers.mc.peopleana.service.exception.DateTimeServiceDisabledException;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  * @version 18.2.1.0
  * @author Michael Che
  */
-public class Person {
+public class Person implements Serializable {
 
     /**
      * Id of record in DB.

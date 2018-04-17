@@ -18,8 +18,8 @@ public class RandomPeopleGenerator {
             "Green", "Brown", "Bishop", "Che", "King", "Shoemaker", "Black", "Rich", "Khan", "Solomon"
     };
 
-    private static final int earliestBirthYear = 1950;
-    private static final int latestBirthYear = LocalDate.now().getYear();
+    private static final int EARLIEST_BIRTH_YEAR = 1950;
+    private static final int LATES_BIRTH_YEAR = LocalDate.now().getYear();
 
     private static final String[] TEL_NO_PREFIXES = {
             "133", "135", "136", "137", "138", "139", "186", "189"
@@ -42,7 +42,7 @@ public class RandomPeopleGenerator {
             "Florence, Italy", "Shanghai, China"
     };
 
-    private static final Random random = new Random();
+    private static Random random = new Random();
 
     /**
      * Generate a random person.
@@ -73,7 +73,7 @@ public class RandomPeopleGenerator {
     }
 
     private static LocalDate generateBirthday() {
-        int year = random.nextInt(latestBirthYear - earliestBirthYear) + earliestBirthYear;
+        int year = random.nextInt(LATES_BIRTH_YEAR - EARLIEST_BIRTH_YEAR) + EARLIEST_BIRTH_YEAR;
         int month = random.nextInt(12) + 1;
         LocalDate firstDayOfBirthMonth = LocalDate.of(year, month, 1);
 

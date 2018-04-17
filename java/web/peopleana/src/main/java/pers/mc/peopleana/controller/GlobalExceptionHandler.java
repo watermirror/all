@@ -1,9 +1,9 @@
 package pers.mc.peopleana.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import pers.mc.peopleana.domain.to.ErrorMessage;
 import pers.mc.peopleana.domain.to.OutgoingMessage;
+import pers.mc.peopleana.service.exception.AddPersonException;
+import pers.mc.peopleana.service.exception.CannotFindMarriageException;
 import pers.mc.peopleana.service.exception.CannotFindPersonException;
 import pers.mc.peopleana.service.exception.PagingPeopleException;
 
@@ -20,19 +22,20 @@ import pers.mc.peopleana.service.exception.PagingPeopleException;
  * @author Michael Che
  */
 @RestControllerAdvice(annotations = RestController.class)
+@Slf4j
 public class GlobalExceptionHandler {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Handle the {@link CannotFindPersonException} exception.
      * @param e exception object.
      * @return the object to response.
      */
-    @ExceptionHandler(CannotFindPersonException.class)
+    @ExceptionHandler({
+            CannotFindPersonException.class,
+            CannotFindMarriageException.class})
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public OutgoingMessage handleCannotFindPersonException(CannotFindPersonException e) {
-        logger.info(e.getMessage());
+    public OutgoingMessage handleCannotFindPersonException(Exception e) {
+        log.info(e.getMessage());
         return new ErrorMessage(e.getMessage());
     }
 
@@ -45,10 +48,11 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({
             MethodArgumentTypeMismatchException.class,
+            IllegalArgumentException.class,
             PagingPeopleException.class})
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public OutgoingMessage handleBadRequest(Exception e) {
-        logger.info(e.getMessage());
+        log.info(e.getMessage());
         return new ErrorMessage(HttpStatus.BAD_REQUEST.value());
     }
 
@@ -58,10 +62,12 @@ public class GlobalExceptionHandler {
      * @param e the exception object.
      * @return the object to response.
      */
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({
+            AddPersonException.class,
+            Exception.class})
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public OutgoingMessage handleDefaultException(Exception e) {
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         return new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 }
