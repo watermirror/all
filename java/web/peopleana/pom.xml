@@ -87,7 +87,7 @@
             <version>1.16.18</version>
             <scope>provided</scope>
         </dependency>
-        <!-- END log4j an lombok -->
+        <!-- END log4j and lombok -->
 
         <!-- BEGIN redis -->
         <dependency>
@@ -98,13 +98,11 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
-            <version>1.7.5.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
         </dependency>
         <!-- END redis -->
     </dependencies>

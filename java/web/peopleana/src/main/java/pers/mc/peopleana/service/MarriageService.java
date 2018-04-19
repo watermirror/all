@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface MarriageService {
 
+    List<Marriage> getAllMarriages();
+
     Marriage findMarriageById(Long id);
 
     Marriage createMarriage(Marriage marriage);
@@ -17,4 +19,6 @@ public interface MarriageService {
     Marriage createRandomMarriage();
 
     List<Marriage> createRandomMarriageList(int count);
+
+    long updateHusbandByRange(long newHusband, long idFirst, long idLast);
 }

@@ -24,6 +24,12 @@ public class MarriageController {
         return new CommonMessage(marriageService.findMarriageById(id));
     }
 
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @ResponseStatus(code = HttpStatus.OK)
+    public OutgoingMessage getAl() {
+        return new CommonMessage(marriageService.getAllMarriages());
+    }
+
     @RequestMapping(path = "/", method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.CREATED)
     public OutgoingMessage createRandomMarriage(@RequestParam(name = "count", required = false) Integer count) {
@@ -31,5 +37,15 @@ public class MarriageController {
             return new CommonMessage(marriageService.createRandomMarriageList(count));
         }
         return new CommonMessage(marriageService.createRandomMarriage());
+    }
+
+    @RequestMapping(path = "/husbands/", method = RequestMethod.PUT)
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public OutgoingMessage updateHusbandByRange(
+            @RequestParam(name = "newHusband") Long newHusband,
+            @RequestParam(name = "idFirst") Long idFirst,
+            @RequestParam(name = "idLast") Long idLast) {
+        marriageService.updateHusbandByRange(newHusband, idFirst, idLast);
+        return new CommonMessage("Updated.");
     }
 }

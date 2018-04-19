@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -40,6 +41,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean
+    @Primary
     public RedisTemplate<String, String> redisTemplate() {
         // Initialization and basic settings.
         RedisTemplate<String, String> template = new RedisTemplate<>();
@@ -50,9 +52,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         StringRedisSerializer keySerializer = new StringRedisSerializer();
         template.setKeySerializer(keySerializer);
 
-        //Set value serializer.
-        GenericJackson2JsonRedisSerializer jackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
-        template.setValueSerializer(jackson2JsonRedisSerializer);
+        // Set key serializer.
+        StringRedisSerializer valueSerializer = new StringRedisSerializer();
+        template.setValueSerializer(valueSerializer);
 
         template.afterPropertiesSet();
         return template;

@@ -1,8 +1,11 @@
 package pers.mc.peopleana.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pers.mc.peopleana.dao.MarriageRepo;
 import pers.mc.peopleana.domain.po.Marriage;
@@ -20,6 +23,7 @@ import java.util.List;
  * @date 2018/04/17
  */
 @Service
+@Slf4j
 public class MarriageServiceImpl implements MarriageService {
 
     @Autowired
@@ -29,6 +33,18 @@ public class MarriageServiceImpl implements MarriageService {
     private RedisTemplate<String, String> redisTemplate;
 
     private long idCounter = 1;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<Marriage> getAllMarriages() {
+        Long count_before = marriageRepo.getMarriagesCount();
+        List<Marriage> list_before = marriageRepo.getAllMarriages();
+
+        Long count_after = marriageRepo.getMarriagesCount();
+        List<Marriage> list_after = marriageRepo.getAllMarriages();
+
+        return list_after;
+    }
 
     @Override
     public Marriage findMarriageById(Long id) {
@@ -60,14 +76,20 @@ public class MarriageServiceImpl implements MarriageService {
     public List<Marriage> createRandomMarriageList(int count) {
         List<Marriage> list = new ArrayList<>();
         for (int i = 0; i < count; ++i) {
-            if (i > 10) {
-                throw new IllegalArgumentException();
-            }
             Marriage marriage = createRandomMarriage();
-            list.add(createRandomMarriage());
-            redisTemplate.opsForValue().set(String.valueOf(marriage.getId()), marriage.getWeddingDate().toString());
+            list.add(marriage);
+            redisTemplate.boundValueOps(String.valueOf(marriage.getId())).set(marriage.getWeddingDate().toString());
         }
         return list;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public long updateHusbandByRange(long newHusband, long idFirst, long idLast) {
+        List<Marriage> listBefore = marriageRepo.getAllMarriages();
+        long changes = marriageRepo.updateHusbandByRange(newHusband, idFirst, idLast);
+        List<Marriage> listAfter = marriageRepo.getAllMarriages();
+        return changes;
     }
 
     private Date randomDate() {
