@@ -1,7 +1,10 @@
 package pers.mc.peopleana.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pers.mc.peopleana.dao.db.ReportDAO;
 import pers.mc.peopleana.service.DateTimeService;
+import pers.mc.peopleana.service.ReportService;
 import pers.mc.peopleana.service.aop.DateTimeServiceEnabler;
 import pers.mc.peopleana.service.aop.DateTimeServiceUpdater;
 import pers.mc.peopleana.service.exception.DateTimeServiceDisabledException;
@@ -26,6 +29,12 @@ public class DateTimeServiceImpl implements DateTimeService, DateTimeServiceUpda
      * When it is a positive number, the service is enabled. Otherwise, the service is disabled.
      */
     private ThreadLocal<Integer> enableCount = new ThreadLocal<>();
+
+    @Autowired
+    private ReportService reportService;
+
+    @Autowired
+    private ReportDAO reportDAO;
 
     @Override
     public LocalDate getCurrentDate() throws DateTimeServiceDisabledException {
@@ -55,5 +64,17 @@ public class DateTimeServiceImpl implements DateTimeService, DateTimeServiceUpda
         }
         val += enabled ? 1 : -1;
         enableCount.set(val);
+    }
+
+    @Override
+    public void increaseDodo(Long c, Long i) {
+
+        long content = c;
+
+        for (; i > 0; --i) {
+            reportService.increaseContent(content, 1L);
+            reportDAO.insertContent(System.currentTimeMillis());
+            ++content;
+        }
     }
 }

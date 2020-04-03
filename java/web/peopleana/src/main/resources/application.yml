@@ -3,7 +3,7 @@ server.port: 8080
 spring.mvc.favicon.enabled: false
 
 # Profiles settings.
-spring.profiles.active: mysql, logging
+spring.profiles.active: mybatis, mysql, logging
 
 ---
 

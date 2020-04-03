@@ -18,8 +18,7 @@ def show_step_result(n, l_inner, m, l_outer, r, step):
     if pi == "":
         pi = "between %s and %s" % (pi_low, pi_hig)
 
-    print "Calculation NO.%d, n = %e, m = %e, Pie is approx. %s"\
-          % (step, n, m, pi)
+    print("Calculation NO.%d, n = %e, m = %e, Pie is approx. %s" % (step, n, m, pi))
 
 
 def f(n, l, r):

@@ -35,8 +35,8 @@ public interface PeopleTable {
      * @param id id of particular person.
      * @return the particular person.
      */
-    @Select("SELECT id, first_name AS firstName, last_name AS lastName, is_male AS isMale, birthday, " +
-            "tel_no AS telNo, email, mail_addr AS mailAddr FROM people " +
+    @Select("SELECT id, first_name, last_name, is_male, birthday, " +
+            "tel_no, email, mail_addr FROM people " +
             "WHERE id = #{id} LIMIT 1")
     Person getOneById(long id);
 
@@ -46,8 +46,8 @@ public interface PeopleTable {
      * @param count the size of range.
      * @return the result list.
      */
-    @Select("SELECT id, first_name AS firstName, last_name AS lastName, is_male AS isMale, birthday, " +
-            "tel_no AS telNo, email, mail_addr AS mailAddr FROM people " +
+    @Select("SELECT id, first_name, last_name, is_male, birthday, " +
+            "tel_no, email, mail_addr FROM people " +
             "LIMIT #{begin}, #{count}")
     List<Person> getByRange(@Param("begin") long begin, @Param("count") long count);
 }

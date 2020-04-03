@@ -3,6 +3,8 @@ package pers.mc.peopleana.domain.po;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import pers.mc.peopleana.service.DateTimeService;
 import pers.mc.peopleana.service.exception.DateTimeServiceDisabledException;
 
@@ -16,6 +18,7 @@ import java.time.format.DateTimeFormatter;
  * @version 18.2.1.0
  * @author Michael Che
  */
+@Slf4j
 public class Person implements Serializable {
 
     /**
@@ -63,6 +66,13 @@ public class Person implements Serializable {
      * It will be null til {@link #updateAge(DateTimeService)} has been called already.
      */
     private transient Integer age;
+
+    @Autowired
+    private DateTimeService dateTimeService;
+
+    public Person() {
+        log.info("A new person was created..");
+    }
 
     /**
      * Update age in years.

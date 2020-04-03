@@ -37,13 +37,13 @@ public class MarriageServiceImpl implements MarriageService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public List<Marriage> getAllMarriages() {
-        Long count_before = marriageRepo.getMarriagesCount();
-        List<Marriage> list_before = marriageRepo.getAllMarriages();
+        Long countBefore = marriageRepo.getMarriagesCount();
+        List<Marriage> listBefore = marriageRepo.getAllMarriages();
 
-        Long count_after = marriageRepo.getMarriagesCount();
-        List<Marriage> list_after = marriageRepo.getAllMarriages();
+        Long countAfter = marriageRepo.getMarriagesCount();
+        List<Marriage> listAfter = marriageRepo.getAllMarriages();
 
-        return list_after;
+        return listAfter;
     }
 
     @Override

@@ -25,4 +25,6 @@ public interface DateTimeService {
      * @return whether service is enabled.
      */
     boolean isEnabled();
+
+    void increaseDodo(Long c, Long i);
 }
